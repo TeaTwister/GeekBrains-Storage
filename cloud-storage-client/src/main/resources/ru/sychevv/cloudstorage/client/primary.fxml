@@ -4,9 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sychevv.PrimaryController">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.sychevv.cloudstorage.client.PrimaryController">
     <HBox VBox.vgrow="ALWAYS">
-        <TableView HBox.hgrow="ALWAYS"/>
+        <TableView fx:id="localFiles" HBox.hgrow="ALWAYS"/>
         <VBox alignment="CENTER" minWidth="40" spacing="30.0">
             <Button maxWidth="30" prefHeight="30" text="-&gt;"/>
             <Button maxWidth="30" prefHeight="30" text="&lt;-"/>
