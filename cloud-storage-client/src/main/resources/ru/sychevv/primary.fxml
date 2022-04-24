@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ru.sychevv.PrimaryController">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sychevv.PrimaryController">
     <HBox VBox.vgrow="ALWAYS">
         <TableView HBox.hgrow="ALWAYS"/>
         <VBox alignment="CENTER" minWidth="40" spacing="30.0">

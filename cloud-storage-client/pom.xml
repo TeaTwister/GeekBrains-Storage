@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>ru.sychevv</groupId>
-            <artifactId>cloud-storage-netcode</artifactId>
+            <artifactId>cloud-storage-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

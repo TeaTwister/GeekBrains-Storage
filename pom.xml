@@ -20,7 +20,7 @@
     <modules>
         <module>cloud-storage-client</module>
         <module>cloud-storage-server</module>
-        <module>cloud-storage-netcode</module>
+        <module>cloud-storage-common</module>
     </modules>
 
     <properties>
