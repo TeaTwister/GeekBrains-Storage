@@ -50,4 +50,8 @@ public class FileData {
     public long getSize() {
         return size;
     }
+
+    public LocalDateTime getModified() {
+        return modified;
+    }
 }

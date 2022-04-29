@@ -1,12 +1,10 @@
 package ru.sychevv.cloudstorage.client;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import ru.sychevv.cloudstorage.common.FileData;
 
 import java.io.IOException;
@@ -14,6 +12,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
@@ -30,11 +29,32 @@ public class PrimaryController implements Initializable {
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         nameColumn.setPrefWidth(240.);
 
-        TableColumn<FileData, String> sizeColumn = new TableColumn<>("Size");
-        sizeColumn.setCellValueFactory(data -> new SimpleStringProperty(Double.toString(data.getValue().getSize())));
+        TableColumn<FileData, Long> sizeColumn = new TableColumn<>("Size");
+        sizeColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getSize()));
+        sizeColumn.setCellFactory(fileDataLongTableColumn -> {
+            return new TableCell<FileData, Long>() {
+                @Override
+                protected void updateItem(Long value, boolean empty) {
+                    super.updateItem(value, empty);
+                    String displayText = null;
+                    if (value == null || empty) {
+                    } else if (value == -1L) {
+                        displayText = "DIR";
+                    } else {
+                        displayText = String.format("%,d b", value);
+                    }
+                    setText(displayText);
+                }
+            };
+        });
         sizeColumn.setPrefWidth(120.);
 
-        localFiles.getColumns().addAll(typeColumn, nameColumn, sizeColumn);
+        TableColumn<FileData, String> modifiedColumn = new TableColumn<>("Modified");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        modifiedColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getModified().format(formatter)));
+
+        localFiles.getColumns().addAll(typeColumn, nameColumn, sizeColumn, modifiedColumn);
+        localFiles.getSortOrder().add(typeColumn);
         updateTable(Paths.get("."), localFiles);
     }
 
