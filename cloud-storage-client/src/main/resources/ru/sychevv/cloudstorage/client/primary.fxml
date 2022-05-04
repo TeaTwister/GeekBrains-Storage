@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.sychevv.cloudstorage.client.PrimaryController">
+    <HBox VBox.vgrow="ALWAYS">
+        <TableView fx:id="localFiles" HBox.hgrow="ALWAYS"/>
+        <VBox alignment="CENTER" minWidth="40" spacing="30.0">
+            <Button maxWidth="30" prefHeight="30" text="-&gt;"/>
+            <Button maxWidth="30" prefHeight="30" text="&lt;-"/>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+            <HBox.margin>
+                <Insets/>
+            </HBox.margin>
+        </VBox>
+        <TableView HBox.hgrow="ALWAYS"/>
+    </HBox>
+</VBox>
