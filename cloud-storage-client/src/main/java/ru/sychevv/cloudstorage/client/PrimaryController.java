@@ -1,13 +1,10 @@
 package ru.sychevv.cloudstorage.client;
 
-import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import ru.sychevv.cloudstorage.common.FileData;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,36 +14,41 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
+
     @FXML
-    TableView<FileData> localFiles;
+    VBox local, remote;
+
+    FileController localFC, remoteFC;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        TableColumn<FileData, String> typeColumn = new TableColumn<>("T");
-        typeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getType()));
-        typeColumn.setPrefWidth(24.);
-
-        TableColumn<FileData, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        nameColumn.setPrefWidth(240.);
-
-        TableColumn<FileData, String> sizeColumn = new TableColumn<>("Size");
-        sizeColumn.setCellValueFactory(data -> new SimpleStringProperty(Double.toString(data.getValue().getSize())));
-        sizeColumn.setPrefWidth(120.);
-
-        localFiles.getColumns().addAll(typeColumn, nameColumn, sizeColumn);
-        updateTable(Paths.get("."), localFiles);
+        localFC = (FileController) local.getProperties().get("controller");
+        remoteFC = (FileController) remote.getProperties().get("controller");
     }
 
-    public void updateTable(Path path, TableView<FileData> table) {
+    public void btnCopyToRemoteAction(ActionEvent actionEvent) {
+        copy(localFC, remoteFC);
+    }
+
+    public void btnCopyToLocalAction(ActionEvent actionEvent) {
+        copy(remoteFC, localFC);
+    }
+
+    private void copy(FileController source, FileController target) {
+        String selectedFileName = source.getSelectedFileName();
+        if (selectedFileName == null) {
+            Alert no_file_selected = new Alert(Alert.AlertType.INFORMATION, "No file selected");
+            no_file_selected.showAndWait();
+            return;
+        }
+        Path sourcePath = Paths.get(source.getCurrentPath(), selectedFileName);
+        Path targetPath = Paths.get(target.getCurrentPath()).resolve(selectedFileName);
         try {
-            table.getItems().clear();
-            table.getItems().addAll(Files.list(path).map(FileData::new).toList());
-            table.sort();
+            Files.copy(sourcePath, targetPath);
         } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Oops!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
         }
+        target.updateTable();
     }
 }
