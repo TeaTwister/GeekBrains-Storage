@@ -17,6 +17,14 @@
         </repository>
     </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.77.Final</version>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>cloud-storage-client</module>
         <module>cloud-storage-server</module>
