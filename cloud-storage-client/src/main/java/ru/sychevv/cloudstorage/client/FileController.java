@@ -3,11 +3,9 @@ package ru.sychevv.cloudstorage.client;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import ru.sychevv.cloudstorage.common.FileData;
 
 import java.io.IOException;
@@ -50,13 +48,10 @@ public class FileController implements Initializable {
         TableColumn<FileData, String> modifiedColumn = initModifiedColumn();
         fileDataTableView.getColumns().addAll(typeColumn, nameColumn, sizeColumn, modifiedColumn);
         fileDataTableView.getSortOrder().add(typeColumn);
-        fileDataTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() == 2) {
-                    Path path = Paths.get(pathField.getText()).resolve(fileDataTableView.getSelectionModel().getSelectedItem().getName());
-                    if (Files.isDirectory(path)) {updateTable(path, fileDataTableView);}
-                }
+        fileDataTableView.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                Path path = Paths.get(pathField.getText()).resolve(fileDataTableView.getSelectionModel().getSelectedItem().getName());
+                if (Files.isDirectory(path)) {updateTable(path, fileDataTableView);}
             }
         });
         updateTable(Paths.get("."), fileDataTableView);
